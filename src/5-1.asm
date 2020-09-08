@@ -23,11 +23,15 @@ mov bx,10
 mov cx,cs
 mov ds,cx
 
-; 求各位上的数据
+; 求个位上的数据
 mov dx,0
 div bx
 mov [0x700+number+0x00],dl; 保存个位上的数字
 
+; 求十位上的数字
+xor dx,dx
+div bx
+mov [0x700+number+0x01],dl; 保存十位上的数字
 
 infi: jump near infi ;无限循环
 
