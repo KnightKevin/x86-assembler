@@ -26,16 +26,58 @@ mov ds,cx
 ; 求个位上的数据
 mov dx,0
 div bx
-mov [0x700+number+0x00],dl; 保存个位上的数字
+mov [0x7c00+number+0x00],dl; 保存个位上的数字
 
 ; 求十位上的数字
+xor dx,dx  ; 作用就是清零，不使用mov dx,0的原因是因为，xor的写法占用空间少，而且源数据和目的数都是寄存器，所以会非常快
+div bx
+mov [0x7c00+number+0x01],dl; 保存十位上的数字
+
+; 求百位上的数字
 xor dx,dx
 div bx
-mov [0x700+number+0x01],dl; 保存十位上的数字
+mov [0x7c00+number+0x02],dl
 
-infi: jump near infi ;无限循环
+; 求千位上的数字
+xor dx,dx
+div bx
+mov [0x7c00+number+0x03],dl
 
-number db 0,0,0,0,0
+; 求万位上的数字
+xor dx,dx
+div bx
+mov [0x7c00+number+0x04],dl
 
-times 203 db 0
+
+; 转换成十进制对应的ascii码
+mov al,[0x7c00+number+0x04]
+add al,0x30
+mov [es:0x1a],al
+mov byte [es:0x1b],0x04
+
+mov al,[0x7c00+number+0x03]
+add al,0x30
+mov [es:0x1c],al
+mov byte [es:0x1d],0x04
+
+mov al,[0x7c00+number+0x02]
+add al,0x30
+mov [es:0x1e],al
+mov byte [es:0x1f],0x04
+
+mov al,[0x7c00+number+0x01]
+add al,0x30
+mov [es:0x20],al
+mov byte [es:0x21],0x04
+
+mov al,[0x7c00+number+0x00]
+add al,0x30
+mov [es:0x22],al
+mov byte [es:0x23],0x04
+
+infi: jmp near infi ;无限循环
+
+number: db 0,0,0,0,0
+
+times 510-($-$$) db 0
           db 0x55,0xaa

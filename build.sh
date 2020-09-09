@@ -8,10 +8,6 @@ file_name_without_suffix=${file_name/\.asm/}
 
 out_file_name="./out/${file_name_without_suffix}.bin"
 
-echo "file path is ${file_path}"
-
-echo "file name is ${file_name}"
-
-echo "out file name is ${out_file_name}"
+echo "ok!"
 
 nasm -f bin $file_path -o $out_file_name
