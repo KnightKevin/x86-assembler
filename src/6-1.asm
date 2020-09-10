@@ -36,15 +36,19 @@ digit:
     inc bx
     loop digit
 
-    mov si,number;
-    mov di,(number-mytest)+1
+    mov bx,number
+    mov si,4
 show:
 ; 待完成
-    cld
-    mov cx,5
-    rep movsb
+    mov al,[bx+si]
+    add al,0x30
+    mov ah,0x40
+    mov [es:di],ax
+    add di,2
+    dec si
+    jns show
 
-    
+    mov word [es:di],0x0744
 
     jmp near $
 

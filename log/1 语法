@@ -12,9 +12,13 @@ label:
     mov ax,12
 ```
 
-# div 除法
+# div 除法&idiv
 - 16位除以8位，被除数放在AX中，除数可以是8位寄存器或者8位的内存，余数在AH中，商在AL中
 - 32位除以16位，被除数的高16位放在DX中，低16位在AX中，除数可以是16位寄存器后者16位的内存，余数在DH中，商在DL中
+
+
+
+idiv 注意取得的结果会产生溢出，可以用cbw或cwd来解决
 
 # movsb,movsw,cld,std 将一段内存数据转移到另外一个地方
 - movsb 以字节为单位
@@ -43,4 +47,6 @@ start:
 ```assembly 
 inc bx ; 将bx里面的数据加一
 ```
+
+## neg，cbw，cwd
 
